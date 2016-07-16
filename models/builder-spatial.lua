@@ -153,6 +153,7 @@ function ModelBuilder:make_net(config, vocab_size)
 			feature:annotate{name='mapping_' .. i}
 			feature = cudnn.ReLU()(feature)
 		else
+			require 'fbcunn'
 			local reshaped = nn.Reshape(output_size, conv_width, true)(normalised)
 			local pooling = nn.TemporalKMaxPooling(k)(reshaped)
 			local max_time = nn.Reshape(k * conv_width, true)(pooling)

@@ -14,7 +14,6 @@ require 'dpnn'
 require 'cutorch'
 require 'cunn'
 require 'cudnn'
-require 'fbcunn'
 cudnn.benchmark = true
 cudnn.fastest = true
 
