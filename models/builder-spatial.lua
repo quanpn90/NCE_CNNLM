@@ -139,8 +139,7 @@ function ModelBuilder:make_net(config, vocab_size)
 		
 		
 		local reshaped_output = nn.Reshape(output_size * conv_width, true)(output)
-		
-		--~ Another batch norm here. This is very important for performance
+		-- this doesn't change the result so much with the batch-norm above ... but it was here from the first implementation
 		local normalised = cudnn.BatchNormalization(output_size * conv_width, 1e-3)(reshaped_output)
 		
 		-- Mapping features into k*word_vec dim using a linear combination
@@ -157,7 +156,6 @@ function ModelBuilder:make_net(config, vocab_size)
 			local reshaped = nn.Reshape(output_size, conv_width, true)(normalised)
 			local pooling = nn.TemporalKMaxPooling(k)(reshaped)
 			local max_time = nn.Reshape(k * conv_width, true)(pooling)
-			--~ feature = cudnn.BatchNormalization(k * conv_width, 0.003)(max_time)
 			feature = max_time
 		end
 			
@@ -165,7 +163,6 @@ function ModelBuilder:make_net(config, vocab_size)
     	final_layer_size = final_layer_size + k * conv_width
 		table.insert(layer1, feature)
 		
-		--~ all batch normalization modules are needed for the best performances ...
 	end
 
 	-- Concatenate output features
