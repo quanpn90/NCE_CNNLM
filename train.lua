@@ -1,7 +1,6 @@
 -- This file trains and tests the CONVNET LM from a batch loader.
 require('torch')
 require('nn')
-require('nnx')
 require('nngraph')
 require 'graph'
 require('options')
@@ -14,10 +13,8 @@ require 'models.builder-spatial'
 require 'dpnn'
 require 'cutorch'
 require 'cunn'
-require 'cunnx'
 require 'cudnn'
 require 'fbcunn'
---~ require 'models.dropout'
 cudnn.benchmark = true
 cudnn.fastest = true
 
